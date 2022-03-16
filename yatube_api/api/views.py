@@ -12,7 +12,7 @@ from posts.models import Comment, Group, Post
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    
+
     def post_create(self, serializer):
         serializer.save(author=self.request.user)
 
@@ -50,7 +50,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         post_id = self.kwargs.get('post_id')
         if self.request.user != serializer.instance.author:
             raise PermissionDenied()
-        serializer.save(author=self.request.user, 
+        serializer.save(author=self.request.user,
                         post=get_object_or_404(Post, id=post_id),
                         status=status.HTTP_200_OK)
 
