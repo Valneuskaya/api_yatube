@@ -37,22 +37,25 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        post_id = self.kwargs.get('post_id')
+        post_id = self.kwargs.get("post_id")
         post = get_object_or_404(Post, id=post_id)
         return Comment.objects.filter(post=post)
 
     def comment_create(self, serializer):
-        post_id = self.kwargs.get('post_id')
-        serializer.save(author=self.request.user,
-                        post=get_object_or_404(Post, id=post_id))
+        post_id = self.kwargs.get("post_id")
+        serializer.save(
+            author=self.request.user, post=get_object_or_404(Post, id=post_id)
+        )
 
     def comment_update(self, serializer):
-        post_id = self.kwargs.get('post_id')
+        post_id = self.kwargs.get("post_id")
         if self.request.user != serializer.instance.author:
             raise PermissionDenied()
-        serializer.save(author=self.request.user,
-                        post=get_object_or_404(Post, id=post_id),
-                        status=status.HTTP_200_OK)
+        serializer.save(
+            author=self.request.user,
+            post=get_object_or_404(Post, id=post_id),
+            status=status.HTTP_200_OK,
+        )
 
     def comment_delete(self, instance):
         if self.request.user != instance.author:
