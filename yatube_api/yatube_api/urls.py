@@ -11,7 +11,7 @@ from api.views import PostViewSet, CommentViewSet, GroupViewSet
 
 router = routers.DefaultRouter()
 router.register(r"posts", PostViewSet)
-router.register(r"posts/(?P<post_id>\d+)/comments", CommentViewSet, 
+router.register(r"posts/(?P<post_id>\d+)/comments", CommentViewSet,
                 basename="comments")
 router.register(r"groups", GroupViewSet)
 
@@ -23,7 +23,7 @@ urlpatterns = [
 
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, 
+    urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, 
+    urlpatterns += static(settings.STATIC_URL,
                           document_root=settings.STATIC_ROOT)
