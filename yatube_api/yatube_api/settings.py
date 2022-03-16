@@ -130,12 +130,6 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
     ],
-}
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME':
-        timedelta(days=1),
-    'AUTH_HEADER_TYPES': ('Bearer',),
 }
