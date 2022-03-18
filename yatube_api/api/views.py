@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
@@ -18,14 +17,13 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         if self.request.user != serializer.instance.author:
-            raise PermissionDenied()
-        serializer.save(author=self.request.user, status=status.HTTP_200_OK)
+            raise PermissionDenied("Нет прав на изменение поста")
+        serializer.save(author=self.request.user)
 
     def perform_destroy(self, instance):
         if self.request.user != instance.author:
-            raise PermissionDenied()
-        instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            raise PermissionDenied("Нет прав на удаление поста")
+        super().perform_destroy(instance)
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
@@ -50,15 +48,13 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         post_id = self.kwargs.get("post_id")
         if self.request.user != serializer.instance.author:
-            raise PermissionDenied()
+            raise PermissionDenied("Нет прав на редактирование комментария")
         serializer.save(
             author=self.request.user,
-            post=get_object_or_404(Post, id=post_id),
-            status=status.HTTP_200_OK,
+            post=get_object_or_404(Post, id=post_id)
         )
 
     def perform_destroy(self, instance):
         if self.request.user != instance.author:
-            raise PermissionDenied()
-        instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            raise PermissionDenied("Нет прав на удаление комментария")
+        super().perform_destroy(instance)
