@@ -1,5 +1,4 @@
-# api_yatube
-CRUD для Yatube
+# CRUD для Yatube
 
 API для всех моделей приложения posts проекта Yatube.
 
